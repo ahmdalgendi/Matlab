@@ -40,17 +40,7 @@ $pubnub->setState($room, ['username' => $username]);
 
 fwrite(STDOUT, "\nConnected to '{$room}' as '{$username}'\n");
 
-$descriptorspec = array(
-   0 => array("pipe", "r"),
-   1 => array("pipe", "w"),
-   2 => array("pipe", "w")
-);
-$pid  = proc_open(
-        '/usr/bin/passwd ' . escapeshellarg($username),
-        $descriptorspec,
-        $pipes
-);
-
+$pid = pcntl_fork();
 
 if ($pid == -1) {
     exit(1);
